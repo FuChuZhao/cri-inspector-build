@@ -75,6 +75,7 @@ jobs:
         shell: bash
 
       - name: Upload artifacts
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: ${{ inputs.artifact_name }}-${{ matrix.os }}
