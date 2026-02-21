@@ -11,6 +11,24 @@ on:
         description: "Uploaded artifact base name"
         required: true
         default: "cri-inspector-artifacts"
+      mode:
+        description: "E2E route mode"
+        required: true
+        default: "smoke-edge"
+        type: choice
+        options:
+          - smoke-edge
+          - stress
+          - all
+      stress_profile:
+        description: "Stress route profile"
+        required: true
+        default: "records-3k"
+        type: choice
+        options:
+          - records-3k
+          - records-10k
+          - body-10mb
 
 permissions:
   contents: read
@@ -25,6 +43,8 @@ jobs:
     runs-on: ${{ matrix.os }}
     env:
       TZ: UTC
+      E2E_MODE: ${{ inputs.mode }}
+      STRESS_PROFILE: ${{ inputs.stress_profile }}
     steps:
       - name: Checkout build repo (workflow only)
         uses: actions/checkout@v4
